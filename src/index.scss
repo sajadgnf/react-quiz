@@ -50,7 +50,6 @@ body {
     font-size: 2rem;
   }
 
-  input,
   select,
   button {
     display: block;
@@ -131,11 +130,17 @@ body {
 .correct {
   background-color: rgb(0, 255, 106);
   pointer-events: none;
+  &:hover {
+    background-color: rgb(0, 255, 106);
+  }
 }
 
 .incorrect {
   background-color: orangered;
   pointer-events: none;
+  &:hover {
+    background-color: orangered;
+  }
 }
 
 .nextButton {
@@ -215,7 +220,6 @@ body {
 }
 
 @media (max-width: 600px) {
-
   .setupFrom button {
     font-size: 1rem;
   }
