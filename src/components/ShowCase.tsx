@@ -5,6 +5,8 @@ import { QuestionCardContext } from '../context/QuestionCardProvider';
 
 //components
 import QuestionCard from './QuestionCard';
+import SetupForm from './SetupForm';
+import Modal from './Modal';
 
 const ShowCase = () => {
 
@@ -15,46 +17,48 @@ const ShowCase = () => {
         userAnswer,
         endGame,
         loading,
-        TOTAL_QUESTIONS,
-        startQuiz,
+        totalQuestions,
         checkAnswer,
-        nextQuestion
+        nextQuestion,
+        reset,
+        modal,
+        error
     } = useContext(QuestionCardContext)
 
+    //check if user chosed an answer
+    const userAnswerHandler = userAnswer.length && userAnswer[userAnswer.length - 1].question === questions[number].question
+
     return (
-        <div>
-            <h1>REACT QUIZ</h1>
-            {endGame || userAnswer.length === TOTAL_QUESTIONS ? < button onClick={startQuiz}>start</button> : null}
+        <div className='container'>
+            {endGame && !modal && <SetupForm />}
+
             {
                 loading && !endGame ?
-                    <p> Loading Questions...</p> :
+                    <p className='loading'></p> :
                     <div>
                         {
                             !endGame &&
-
-                            <div>
-                                <p>Score:{score}</p>
+                            <div className='questionContainer'>
                                 <QuestionCard
-                                    questionNr={number + 1}
-                                    totalQuestions={TOTAL_QUESTIONS}
+                                    questionNr={number +1}
+                                    totalQuestions={totalQuestions}
                                     question={questions[number].question}
+                                    correctAnswer={questions[number].correct_answer}
                                     answers={questions[number].answers}
-                                    userAnswer={userAnswer.length > number ? userAnswer : undefined}
+                                    userAnswer={userAnswerHandler ? userAnswer[userAnswer.length - 1] : undefined}
                                     callback={checkAnswer}
+                                    score={score}
+                                    number={number}
                                 />
 
-                                {
-                                    !endGame &&
-                                    userAnswer.length > number &&
-                                    number + 1 !== TOTAL_QUESTIONS &&
-                                    <button onClick={nextQuestion}>Next Question</button>
-                                }
+                                <button className='nextButton' onClick={nextQuestion}>Next Question</button>
                             </div>
                         }
                     </div>
             }
-        </div >
 
+            {modal && <Modal score={score} questions={questions} reset={reset} />}
+        </div>
     );
 };
 

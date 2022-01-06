@@ -4,7 +4,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import { getData } from '../services/api';
 
 //types
-import { Difficulty, Question } from "../services/api"
+import { Question, Difficulty, Category } from "../services/api"
 
 export type AnswerObject = {
     question: string;
@@ -19,25 +19,29 @@ const QuestionCardProvider = ({ children }: any) => {
 
     const [loading, setLoading] = useState(true)
     const [endGame, setEndGame] = useState(true)
+    const [modal, setModal] = useState(false)
     const [number, setNumber] = useState(0)
     const [score, setScore] = useState(0)
     const [questions, setQuestions] = useState<Question[]>([])
+    const [error, setError] = useState(false)
     const [userAnswer, setUserAnswer] = useState<AnswerObject[]>([])
-    const TOTAL_QUESTIONS = 10
+    const [totalQuestions, setTotalQuestions] = useState(10)
+    const [category, setCategory] = useState<Category>(Category.SCIENCE_NATURE)
+    const [difficulty, setDifficulty] = useState<Difficulty>(Difficulty.EASY)
 
     //starting the game
     const startQuiz = async () => {
-        setEndGame(false)
-        setLoading(true)
         setNumber(0)
         setScore(0)
         setUserAnswer([])
+        setEndGame(false)
 
         try {
-            setQuestions(await getData(TOTAL_QUESTIONS, Difficulty.EASY))
+            setQuestions(await getData(totalQuestions, difficulty, category))
             setLoading(false)
+
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 
@@ -47,6 +51,7 @@ const QuestionCardProvider = ({ children }: any) => {
             const answer = e.target.innerText
             const correct = questions[number].correct_answer === answer
             if (correct) setScore((prev) => prev + 1)
+
             const AnswerObject = {
                 question: questions[number].question,
                 answer,
@@ -57,32 +62,44 @@ const QuestionCardProvider = ({ children }: any) => {
         }
     }
 
+    const reset = () => {
+        setEndGame(true)
+        setNumber(0)
+        setScore(0)
+        setUserAnswer([])
+        setModal(false)
+    }
+
     //enf of the game
     const nextQuestion = () => {
         let nextQ = number + 1
-        if (nextQ === TOTAL_QUESTIONS) {
-            setEndGame(true)
+
+        if (nextQ === totalQuestions) {
+            setModal(true)
+        } else {
+            setNumber(nextQ)
         }
-        setNumber(nextQ)
     }
-
-
-    useEffect(() => {
-        const fetchAPI = async () => {
-            try {
-                setQuestions(await getData(TOTAL_QUESTIONS, Difficulty.EASY))
-                setLoading(false)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-
-        fetchAPI()
-    }, [])
 
     return (
         <QuestionCardContext.Provider value={{
-            questions, number, score, userAnswer, endGame, TOTAL_QUESTIONS, loading, startQuiz, checkAnswer, nextQuestion
+            questions,
+            number,
+            score, userAnswer,
+            endGame,
+            totalQuestions,
+            loading,
+            category,
+            difficulty,
+            modal,
+            error,
+            startQuiz,
+            checkAnswer,
+            nextQuestion,
+            setTotalQuestions,
+            setCategory,
+            setDifficulty,
+            reset
         }}>
             {children}
         </ QuestionCardContext.Provider>
