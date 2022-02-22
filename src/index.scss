@@ -102,6 +102,7 @@ body {
 }
 
 .questionContainer {
+  overflow: hidden;
   background: rgb(13, 148, 238);
   background: linear-gradient(315deg, rgba(13, 148, 238, 0.1) 0%, rgba(254, 164, 1, 0.1) 100%);
   width: 70rem;
