@@ -2,12 +2,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: #102a42;
+  color: #ffffff;
   font-family: "Cabin", sans-serif;
 }
 
 body {
-  background: #f1f5f8;
+  background-color: #f1f5f8;
+  background: url(./assets/images/background.jpg) center no-repeat;
+  background-size: cover;
+  backdrop-filter: blur(5px);
   min-height: 100vh;
 }
 
@@ -24,8 +27,8 @@ body {
 .loading {
   width: 6rem;
   height: 6rem;
-  border: 3px solid #dfdfdf;
-  border-top-color: hsl(205, 78%, 60%);
+  border: 5px solid #dfdfdf;
+  border-top-color: hsl(36, 100%, 46%);
   border-radius: 50%;
   margin: auto;
   animation: spinner 0.5s linear infinite;
@@ -38,12 +41,27 @@ body {
 }
 
 .setupFrom {
-  background-color: #fff;
+  background: rgb(13, 148, 238);
+  background: linear-gradient(315deg, rgba(13, 148, 238, 0.1) 0%, rgba(254, 164, 1, 0.1) 100%);
+  overflow: hidden;
   border-radius: 10px;
   height: auto;
   width: 500px;
   max-width: 80vw;
   padding: 50px;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);
+    background: linear-gradient(315deg, rgba(13, 148, 238, 0.3) 0%, rgba(149, 65, 42, 0.5) 100%);
+    z-index: -1;
+  }
 
   h2 {
     margin-bottom: 30px;
@@ -61,6 +79,11 @@ body {
     outline: none;
     border-radius: 5px;
     background-color: #f1f5f8;
+    color: #102a42;
+  }
+
+  option {
+    color: #102a42;
   }
 
   button {
@@ -79,7 +102,8 @@ body {
 }
 
 .questionContainer {
-  background-color: #fff;
+  background: rgb(13, 148, 238);
+  background: linear-gradient(315deg, rgba(13, 148, 238, 0.1) 0%, rgba(254, 164, 1, 0.1) 100%);
   width: 70rem;
   max-width: 90vw;
   display: flex;
@@ -87,6 +111,19 @@ body {
   align-items: center;
   flex-direction: column;
   border-radius: 5px;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);
+    background: linear-gradient(315deg, rgba(13, 148, 238, 0.3) 0%, rgba(149, 65, 42, 0.5) 100%);
+    z-index: -1;
+  }
 
   .title {
     display: flex;
@@ -115,15 +152,13 @@ body {
   width: 80%;
   margin: 5px;
   cursor: pointer;
-  background: #8bcbf9;
-  transition: all 0.3s linear;
+  background: #0d94ee;
+  background: linear-gradient(315deg, rgba(13, 148, 238, 0.7) 0%, rgba(149, 65, 42, 0.7) 100%);
+  transition: all 0.2s linear;
 
   &:hover {
     background: #0b7dce;
-  }
-
-  &:hover * {
-    color: #fff;
+    background: linear-gradient(315deg, rgba(149, 65, 42, 0.7) 0%, rgba(13, 148, 238, 0.7) 100%);
   }
 }
 
@@ -156,6 +191,7 @@ body {
   margin-left: auto;
   font-size: 1rem;
   font-weight: bold;
+  color: #102a42;
 
   &:hover {
     background-color: rgb(247, 160, 0);
@@ -178,7 +214,7 @@ body {
 }
 
 .modalContent {
-  background-color: #fff;
+  background-color: rgb(99, 99, 99);
   width: 600px;
   max-width: 90vw;
   height: 250px;
